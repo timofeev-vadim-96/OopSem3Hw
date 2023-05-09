@@ -5,20 +5,42 @@ import figures.impl.Rectangle;
 import figures.impl.Square;
 import figures.impl.Triangle;
 
-import java.util.Collections;
-import java.util.LinkedList;
-import java.util.Scanner;
+import java.util.*;
 
-public class Foo {
-    private LinkedList<Figure> figures;
+public class Foo implements Iterable<Figure>{
+    private List<Figure> figures;
+    private int index = 0;
+    public Foo(List<Figure> figures) {
+        this.figures = figures;
+    }
+
+    @Override
+    public Iterator<Figure> iterator() {
+
+        return new Iterator<Figure>() {
+            @Override
+            public boolean hasNext() {
+                return index < figures.size();
+            }
+            @Override
+            public Figure next() {
+                return figures.get(index++);
+            }
+        };
+    }
+
+    @Override
+    public String toString() {
+        return String.format("%s, figures: %s", this.getClass().getSimpleName(),figures);
+    }
 
     public Foo addFigure(Figure figure){
         figures.add(figure);
         return this;
     }
-    public Foo(){
-        figures = new LinkedList<Figure>();
-    }
+//    public Foo(){
+//        figures = new LinkedList<Figure>();
+//    }
     public void getInfo() {
         figures.forEach(a -> System.out.println(a));
     }
@@ -49,7 +71,7 @@ public class Foo {
         Scanner scanner = new Scanner(System.in);
         int choice;
         if (usersChoice == 1){
-            figures.forEach(a-> System.out.println(a));
+            getInfo();
             userMenu();
         }
         else if (usersChoice == 2){
@@ -63,8 +85,8 @@ public class Foo {
             choice = scanner.nextInt();
             if (choice == 1){
                 System.out.println("Введите радиус новой окружности: ");
-                choice = scanner.nextInt();
-                addFigure(new Circle(Math.abs(choice)));
+                int radius = scanner.nextInt();
+                addFigure(new Circle(Math.abs(radius)));
                 System.out.println("Окружность добавлена!");
                 userMenu();
             }
@@ -80,8 +102,8 @@ public class Foo {
             }
             else if (choice == 3){
                 System.out.println("Введите сторону нового квадрата: ");
-                choice = scanner.nextInt();
-                addFigure(new Circle(Math.abs(choice)));
+                int side = scanner.nextInt();
+                addFigure(new Circle(Math.abs(side)));
                 System.out.println("Квадрат добавлен!");
                 userMenu();
             }
@@ -117,14 +139,14 @@ public class Foo {
                 userMenu();
             }
             System.out.println("Введите индекс: ");
-            choice = scanner.nextInt();
-            if (choice > figures.size()){
+            int inputIndex = scanner.nextInt();
+            if (inputIndex >= figures.size()){
                 System.out.println("Фигура с таким индексом не существует...");
                 userMenu();
             }
             else{
-                System.out.printf("%s удален(а)\n", figures.get(choice).getClass().getSimpleName());
-                deleteFigure(choice);
+                System.out.printf("%s удален(а)\n", figures.get(inputIndex).getClass().getSimpleName());
+                deleteFigure(inputIndex);
                 userMenu();
             }
         }
@@ -134,38 +156,38 @@ public class Foo {
                 userMenu();
             }
             System.out.println("Введите индекс: ");
-            choice = scanner.nextInt();
-            if (choice > figures.size()){
+            int inputIndex = scanner.nextInt();
+            if (inputIndex >= figures.size()){
                 System.out.println("Фигура с таким индексом не существует...");
                 userMenu();
             }
             else{
-                if (figures.get(choice) instanceof Circle){
+                if (figures.get(inputIndex) instanceof Circle){
                     System.out.println("Введите радиус: ");
-                    choice = scanner.nextInt();
-                    ((Circle) figures.get(choice)).setRadius(Math.abs(choice));
+                    int newRadius = scanner.nextInt();
+                    ((Circle) figures.get(inputIndex)).setRadius(Math.abs(newRadius));
                     System.out.println("Окружность изменена!");
                     userMenu();
                 }
-                else if(figures.get(choice) instanceof Rectangle){
+                else if(figures.get(inputIndex) instanceof Rectangle){
                     int a,b;
                     System.out.println("Введите длину: ");
                     a = scanner.nextInt();
                     System.out.println("Введите ширину: ");
                     b = scanner.nextInt();
-                    ((Rectangle) figures.get(choice)).setA(Math.abs(a));
-                    ((Rectangle) figures.get(choice)).setB(Math.abs(b));
+                    ((Rectangle) figures.get(inputIndex)).setA(Math.abs(a));
+                    ((Rectangle) figures.get(inputIndex)).setB(Math.abs(b));
                     System.out.println("Прямоугольник изменен!");
                     userMenu();
                 }
-                else if (figures.get(choice) instanceof Square){
+                else if (figures.get(inputIndex) instanceof Square){
                     System.out.println("Введите сторону: ");
-                    choice = scanner.nextInt();
-                    ((Square) figures.get(choice)).setA(Math.abs(choice));
+                    int side = scanner.nextInt();
+                    ((Square) figures.get(inputIndex)).setA(Math.abs(side));
                     System.out.println("Квадрат изменен!");
                     userMenu();
                 }
-                else if(figures.get(choice) instanceof Triangle){
+                else if(figures.get(inputIndex) instanceof Triangle){
                     int a,b,c;
                     System.out.println("Введите длину: ");
                     a = scanner.nextInt();
@@ -177,9 +199,9 @@ public class Foo {
                         System.out.println("Одна из сторон не может быть больше суммы двух других сторон...");
                         userMenu();
                     }
-                    ((Triangle) figures.get(choice)).setA(Math.abs(a));
-                    ((Triangle) figures.get(choice)).setB(Math.abs(b));
-                    ((Triangle) figures.get(choice)).setC(Math.abs(c));
+                    ((Triangle) figures.get(inputIndex)).setA(Math.abs(a));
+                    ((Triangle) figures.get(inputIndex)).setB(Math.abs(b));
+                    ((Triangle) figures.get(inputIndex)).setC(Math.abs(c));
                     System.out.println("Треугольник изменен!");
                     userMenu();
                 }
@@ -187,7 +209,7 @@ public class Foo {
         }
         else if (usersChoice == 5){
             Collections.sort(figures);
-            figures.forEach(System.out::println);
+            getInfo();
             userMenu();
         }
         else if (usersChoice == 6){
