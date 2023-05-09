@@ -1,5 +1,5 @@
 import figures.Figure;
-import figures.Foo;
+import figures.FiguresCollection;
 import figures.impl.Circle;
 import figures.impl.Rectangle;
 import figures.impl.Square;
@@ -15,7 +15,7 @@ public class Main {
         figureList.add(new Rectangle(4,6));
         figureList.add(new Square(5));
         figureList.add(new Triangle(3,4,5));
-        Foo figuresCollection = new Foo(figureList);
+        FiguresCollection figuresCollection = new FiguresCollection(figureList);
         figuresCollection.userMenu();
     }
 }

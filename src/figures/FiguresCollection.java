@@ -7,10 +7,10 @@ import figures.impl.Triangle;
 
 import java.util.*;
 
-public class Foo implements Iterable<Figure>{
+public class FiguresCollection implements Iterable<Figure>{
     private List<Figure> figures;
     private int index = 0;
-    public Foo(List<Figure> figures) {
+    public FiguresCollection(List<Figure> figures) {
         this.figures = figures;
     }
 
@@ -34,7 +34,7 @@ public class Foo implements Iterable<Figure>{
         return String.format("%s, figures: %s", this.getClass().getSimpleName(),figures);
     }
 
-    public Foo addFigure(Figure figure){
+    public FiguresCollection addFigure(Figure figure){
         figures.add(figure);
         return this;
     }
