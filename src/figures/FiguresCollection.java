@@ -103,7 +103,7 @@ public class FiguresCollection implements Iterable<Figure>{
             else if (choice == 3){
                 System.out.println("Введите сторону нового квадрата: ");
                 int side = scanner.nextInt();
-                addFigure(new Circle(Math.abs(side)));
+                addFigure(new Square(Math.abs(side)));
                 System.out.println("Квадрат добавлен!");
                 userMenu();
             }
